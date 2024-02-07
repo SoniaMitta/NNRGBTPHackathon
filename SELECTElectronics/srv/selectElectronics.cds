@@ -317,13 +317,13 @@ annotate SELECTElectronics.StockData with @(
     UI.SelectionFields: [ store_id_ID,product_id_ID],       
 );
 
-/*annotate SELECTElectronics.Product with @(
-    UI.FieldGroup #StockdataInformation : {
+annotate SELECTElectronics.StockData with @(
+    UI.FieldGroup #StockDataInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            {
+             {
             $Type : 'UI.DataField',
-            Value : 
+            Value : store_id_ID
         },
         {
             $Type : 'UI.DataField',
@@ -339,11 +339,12 @@ annotate SELECTElectronics.StockData with @(
         {
             $Type : 'UI.ReferenceFacet',
             ID : 'StockInfoFacet',
-            Label : 'stock Information',
-            Target : '@UI.FieldGroup#StockdataInformation',
+            Label : 'Stock Data Information',
+            Target : '@UI.FieldGroup#StockDataInformation',
         },
     ],    
-);*/
+);
+
 
 annotate SELECTElectronics.Purchase with @(
     UI.LineItem: [
@@ -408,6 +409,34 @@ annotate SELECTElectronics.Sales with @(
         },
     ],
     UI.SelectionFields: [ ],       
+);
+
+annotate SELECTElectronics.Sales with @(
+    UI.FieldGroup #SalesInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+             {
+            $Type : 'UI.DataField',
+            Value : sod
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : business_partner_number_ID
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : sales_date
+        },
+        ],
+    },
+   UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'SalesInfoFacet',
+            Label : 'Sales Information',
+            Target : '@UI.FieldGroup#SalesInformation',
+        },
+    ],    
 );
 
 
