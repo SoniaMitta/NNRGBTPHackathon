@@ -363,6 +363,35 @@ annotate SELECTElectronics.Purchase with @(
     UI.SelectionFields: [ ],       
 );
 
+annotate SELECTElectronics.Purchase with @(
+    UI.FieldGroup #PurchaseInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+             {
+            $Type : 'UI.DataField',
+            Value : pod
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : business_partner_number_ID
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : purchase_order__date
+        },
+        ],
+    },
+   UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'PurchaseInfoFacet',
+            Label : 'Purchase Information',
+            Target : '@UI.FieldGroup#PurchaseInformation',
+        },
+    ],    
+);
+
+
 annotate SELECTElectronics.Sales with @(
     UI.LineItem: [
         {
