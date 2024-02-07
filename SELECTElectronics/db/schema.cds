@@ -28,22 +28,31 @@ entity BusinessPartner : cuid,managed {
     is_customer : Boolean;
 }
 
+@cds.persistence.skip
+entity State  {
+    @title : 'code'
+    code : String(5);
+    @title : 'description'
+    description : String(20);
+} 
+
 entity Store : cuid,managed {
     @title : 'Store ID'
     store_id : Integer ;
     @title : 'Name'
     name : String(30);
     @title : 'Address 1'
-    address_1 : String(50);
+    address_1 : String(50) @mandatory;
     @title : 'Address 2'
     address_2 : String(50);
     @title : 'City'
-    city : String(20);
-     @title : 'State'
-    state : String(10);
+    city : String(20) @mandatory;
+    @title : 'State'
+    state : String(10) @mandatory;
     @title : 'PIN Code'
-    pin_code : Integer;
+    pin_code : String(10) @mandatory;
 }
+
 
 entity Product : cuid,managed {
     @title : 'Product ID'
@@ -72,6 +81,23 @@ entity Purchase : cuid,managed {
     pod : Integer;
     @title : 'Business Partner'
     business_partner_number : Association to BusinessPartner;
+    @title : 'Purchase order date'
+    purchase_order__date : Date;
+    @title : 'Items'
+    items : Composition of many {
+        key ID : UUID;
+        product_id : Association to Product;
+        qty : Association to StockData;
+        price : Integer;
+        store_id : Association to Store;
+    }
+}
+
+entity Sales : cuid,managed {
+    @title : 'Sales Order Number'
+    sod : Integer;
+    @title : 'Business Partner'
+    business_partner_number : Association to BusinessPartner;
     @title : 'Sales date'
     sales_date : Date;
     @title : 'Items'
@@ -83,6 +109,8 @@ entity Purchase : cuid,managed {
         store_id : Association to Store;
     }
 }
+
+
 
 
 
