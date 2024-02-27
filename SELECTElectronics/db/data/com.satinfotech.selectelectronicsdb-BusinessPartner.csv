@@ -1,2 +1,3 @@
-business_partner_number,first_name,last_name,address_1,address_2,city,state,pin_code,Is_gstn_registered,gstin_number
-1,sonia,mitta,gandhinagar,parvatapur,hyderabad,Telangana,500098,yes,22AAAAA0000A1Z5
+ID,business_partner_number,first_name,last_name,address_1,address_2,city,state,pin_code,Is_gstn_registered,gstin_number,is_vendor,is_customer
+fb105992-133c-4b62-b255-5b428d723dc1,1,sonia,mitta,gandhinagar,parvatapur,hyderabad,Telangana,500098,yes,22AAAAA0000A1Z5,no,no
+80a40ca2-9da4-4a49-9256-b4745036bb3d,2,deepika,mattori,sr nagar,malkajgiri,hyderabad,Telangana,500098,yes,22AAAAA0000A1Z6,no,no

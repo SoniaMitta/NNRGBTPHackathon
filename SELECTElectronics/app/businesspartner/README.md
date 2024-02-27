@@ -1,7 +1,7 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Wed Feb 07 2024 15:21:39 GMT+0530 (India Standard Time)|
+|**Generation Date and Time**<br>Mon Feb 26 2024 14:50:28 GMT+0530 (India Standard Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
 |**App Generator Version**<br>1.12.2|
 |**Generation Platform**<br>Visual Studio Code|
@@ -9,10 +9,10 @@
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>http://localhost:4004/odata/v4/selectelectronics/
 |**Module Name**<br>businesspartner|
-|**Application Title**<br>Business Partner|
+|**Application Title**<br>business partner information|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.120.6|
+|**UI5 Version**<br>1.120.8|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
@@ -20,7 +20,7 @@
 
 ## businesspartner
 
-Business Partner
+business partner application.
 
 ### Starting the generated app
 

@@ -1,2 +1,3 @@
-store_id,name,address_1,address_2,city,state,pin_code
-101,book shop,peerzadiguda,,hyderabad,telangana,500098
+ID,store_id,name,address_1,address_2,city,state,pin_code
+33ac990a-5527-4fcc-91f0-509f32611b6e,1,book shop,peerzadiguda,,hyderabad,telangana,500098
+c1f5d619-5b3d-46d9-83c7-0ac6f5760c92,2,electrical appliances,ameerpet,,hyderabad,telangana,500098

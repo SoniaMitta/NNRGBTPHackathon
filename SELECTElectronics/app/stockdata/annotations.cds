@@ -1,1 +1,1 @@
-using SELECTElectronics as service from '../../srv/selectElectronics';
+using SELECTElectronics as service from '../../srv/SELECTElectronics';

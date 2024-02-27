@@ -1,5 +1,5 @@
 {
-  "name": "SELECTElectronics",
+  "name": "SAPtask",
   "version": "1.0.0",
   "description": "A simple CAP project.",
   "repository": "<Add your repository here>",
@@ -11,20 +11,32 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/ux-specification": "^1.120.3"
+    "@sap/ux-specification": "^1.120.4"
   },
   "scripts": {
-    "start": "cds-serve",
-    "watch-stockdata": "cds watch --open stockdata/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-purchase": "cds watch --open purchase/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-sales": "cds watch --open sales/webapp/index.html?sap-ui-xx-viewCache=false"
+    "start": "cds-serve"
+  },
+  "cds": {
+    "fiori": {
+      "lean_draft": true,
+      "bypass_draft": true
+    },
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
+        }
+      }
+    }
   },
   "sapux": [
-    "app/stockdata",
     "app/businesspartner",
+    "app/businesspartner",
+    "app/store",
+    "app/product",
+    "app/stockdata",
     "app/purchase",
-    "app/sales",
     "app/sales"
   ]
 }

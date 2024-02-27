@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.12.2",
-      "toolsId": "3d640536-ab0b-4f01-8718-d61c1a88b7b4"
+      "toolsId": "6c44d4dd-888e-41e0-ae63-03bab8959315"
     },
     "dataSources": {
       "mainService": {
@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.120.6",
+      "minUI5Version": "1.120.8",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -83,7 +83,6 @@
       "css": []
     },
     "routing": {
-      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
@@ -109,6 +108,26 @@
                 "BusinessPartner": {
                   "detail": {
                     "route": "BusinessPartnerObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "actions": {
+                    "businesspartnerListExt2": {
+                      "press": "businesspartner.ext.businesspartnerListExt.businesspartnerListExt.SetCustomer",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Set Customer"
+                    },
+                    "businesspartnerListExt": {
+                      "press": "businesspartner.ext.businesspartnerListExt.businesspartnerListExt.SetVendor",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Set Vendor"
+                    }
                   }
                 }
               }
