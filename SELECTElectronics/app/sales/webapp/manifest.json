@@ -103,6 +103,7 @@
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
+              "initialLoad": "Enabled",
               "contextPath": "/Sales",
               "variantManagement": "Page",
               "navigation": {
@@ -121,6 +122,7 @@
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
+              "createMode": "inline",
               "editableHeaderContent": false,
               "contextPath": "/Sales"
             }

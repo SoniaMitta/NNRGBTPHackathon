@@ -37,11 +37,15 @@ entity State  {
     description : String(20);
 } 
 
+
+@assert.unique : {
+    store_id : [store_id]
+}
 entity Store : cuid,managed {
     @title : 'Store ID'
-    store_id : Integer;
+    store_id : String(20) @mandatory;
     @title : 'Name'
-    name : String(30);
+    name : String(30) @mandatory;
     @title : 'Address 1'
     address_1 : String(50) @mandatory;
     @title : 'Address 2'
@@ -57,64 +61,57 @@ entity Store : cuid,managed {
 
 entity Product : cuid,managed {
     @title : 'Product ID'
-    product_id : Integer ;
+    product_id : String(20) @mandatory;
     @title : 'Product Name'
-    product_name : String(30);
-    @title : 'Product Image URL'
-    product_img_url : String(50);
+    product_name : String(30) @mandatory;
+    @title : 'Product Image URL' 
+    product_img_url : String(50) default 'https://img.freepik.com/free-psd/3d-camera-isolated-transparent-background_191095-16439.jpg?t=st=1708945563~exp=1708949163~hmac=73030ea4e800522d1990c71327b7b26599d43417d36193976628e1524d4cee81&w=740';
     @title : 'Cost Price'
-    product_cost_price : Integer;
+    product_cost_price : Integer @mandatory;
     @title : 'Sell Price'
-    product_sell_price : Integer;
+    product_sell_price : Integer @mandatory;
 }
 
 entity StockData : cuid,managed {
     @title : 'Store ID'
-    store_id : Association to Store;
+    store_id : Association to Store @mandatory;
     @title : 'Product ID'
-    product_id : Association to Product;
+    product_id : Association to Product @mandatory;
     @title : 'Stock Quantity'
-    stock_qty : Integer;
+    stock_qty : Integer @mandatory;
 }
 
 entity Purchase : cuid,managed {
     @title : 'Purchase Order Number'
-    pod : Integer;
+    pod : Integer @mandatory;
     @title : 'Business Partner'
-    business_partner_number : Association to BusinessPartner;
+    business_partner_number : Association to BusinessPartner @mandatory;
     @title : 'Purchase order date'
-    purchase_order__date : Date;
+    purchase_order__date : Date @mandatory;
     @title : 'Items'
-    items : Composition of many {
+    Items : Composition of many {
         key ID : UUID;
-        Item : Association to Items;
+        product_id : Association to Product @mandatory;
+        qty :  Integer @mandatory;
+        price : Integer @mandatory;
+        store_id : Association to Store;
     }
 }
 
-entity Items : cuid,managed {
-    @title : 'Product ID'
-    product_id : Association to Product;
-    @title : 'Quantity'
-    qty : Integer;
-    @title : 'Price'
-    price : Integer;
-    @title : 'Store ID'
-    store_id : Association to Store;
-}
 
 entity Sales : cuid,managed {
     @title : 'Sales Order Number'
-    sod : Integer;
+    sod : Integer @mandatory;
     @title : 'Business Partner'
-    business_partner_number : Association to BusinessPartner;
+    business_partner_number : Association to BusinessPartner @mandatory;
     @title : 'Sales date'
-    sales_date : Date;
+    sales_date : Date @mandatory;
     @title : 'Items'
-    items : Composition of many {
+    Items : Composition of many {
         key ID : UUID;
-        product_id : Association to Product;
-        qty : Association to StockData;
-        price : Integer;
+        product_id : Association to Product @mandatory;
+        qty :  Integer @mandatory;
+        price : Integer @mandatory;
         store_id : Association to Store;
     }
 }

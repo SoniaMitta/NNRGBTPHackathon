@@ -2,14 +2,37 @@ using { com.satinfotech.selectelectronicsdb as db} from '../db/schema';
 
 
 service SELECTElectronics {
-    entity BusinessPartner as projection on db.BusinessPartner;
-    entity Store as projection on db.Store;
-    entity Product as projection on db.Product;
-    entity StockData as projection on db.StockData;
-    entity Purchase as projection on db.Purchase;
+    entity BusinessPartner as projection on db.BusinessPartner{
+        @UI.Hidden
+        ID,
+        *
+    };
+    entity Store as projection on db.Store{
+        @UI.Hidden
+        ID,
+        *
+    };
+    entity Product as projection on db.Product{
+        @UI.Hidden
+        ID,
+        *
+    };
+    entity StockData as projection on db.StockData{
+        @UI.Hidden
+        ID,
+        *
+    };
+    entity Purchase as projection on db.Purchase{
+        @UI.Hidden
+        ID,
+        *
+    };
     entity State as projection on db.State;
-     entity Sales as projection on db.Sales;
-     entity Items as projection on db.Items;
+     entity Sales as projection on db.Sales{
+        @UI.Hidden
+        ID,
+        *
+    };
     
 }
 
@@ -19,7 +42,6 @@ annotate SELECTElectronics.Product with @odata.draft.enabled;
 annotate SELECTElectronics.StockData with @odata.draft.enabled;
 annotate SELECTElectronics.Purchase with @odata.draft.enabled;
 annotate SELECTElectronics.Sales with @odata.draft.enabled;
-annotate SELECTElectronics.Items with @odata.draft.enabled;
 
 annotate SELECTElectronics.BusinessPartner with {
     first_name      @assert.format: '^[a-zA-Z]{2,}$';
@@ -305,11 +327,11 @@ annotate SELECTElectronics.StockData with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
-            Value : store_id.store_id
+            Value : store_id.name
         },
         {
             $Type : 'UI.DataField',
-            Value : product_id_ID
+            Value : product_id.product_name
         },
         {
             $Type : 'UI.DataField',
@@ -320,18 +342,16 @@ annotate SELECTElectronics.StockData with @(
 );
 
 annotate SELECTElectronics.StockData with @(
-    UI.FieldGroup #StockDataInformation : {
+    UI.FieldGroup #ProductInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
              {
             $Type : 'UI.DataField',
-            Label : 'Store name',
-            Value : store_id.name
+            Value : store_id_ID
         },
         {
             $Type : 'UI.DataField',
-            Label : 'product name',
-            Value : product_id.product_name
+            Value : product_id_ID
         },
         {
             $Type : 'UI.DataField',
@@ -342,12 +362,13 @@ annotate SELECTElectronics.StockData with @(
    UI.Facets : [
         {
             $Type : 'UI.ReferenceFacet',
-            ID : 'StockInfoFacet',
-            Label : 'Stock Data Information',
-            Target : '@UI.FieldGroup#StockDataInformation',
+            ID : 'ProductInfoFacet',
+            Label : 'Product Information',
+            Target : '@UI.FieldGroup#ProductInformation',
         },
     ],    
 );
+
 
 
 annotate SELECTElectronics.Purchase with @(
@@ -393,63 +414,15 @@ annotate SELECTElectronics.Purchase with @(
             Label : 'Purchase Information',
             Target : '@UI.FieldGroup#PurchaseInformation',
         },
-    ],    
-);
-
-
-annotate SELECTElectronics.Items with @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            Value : product_id_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : qty
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : price
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : store_id_ID
-        },
-    ],
-    UI.SelectionFields: [ ],       
-);
-
-annotate SELECTElectronics.Items with @(
-    UI.FieldGroup #ItemInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            Value : product_id_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : qty
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : price
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : store_id_ID
-        },
-        ],
-    },
-   UI.Facets : [
         {
             $Type : 'UI.ReferenceFacet',
-            ID : 'PurchaseInfoFacet',
-            Label : 'Item Information',
-            Target : '@UI.FieldGroup#ItemInformation',
+            ID : 'PurchaseItemsFacet',
+            Label : 'Purchase Items Information',
+            Target : 'Items/@UI.LineItem',
         },
     ],    
 );
+
 
 
 annotate SELECTElectronics.Sales with @(
@@ -495,6 +468,12 @@ annotate SELECTElectronics.Sales with @(
             Label : 'Sales Information',
             Target : '@UI.FieldGroup#SalesInformation',
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'SalesItemsFacet',
+            Label : 'Sales Items Information',
+            Target : 'Items/@UI.LineItem',
+        }
     ],    
 );
 
@@ -522,6 +501,34 @@ annotate SELECTElectronics.BusinessPartner with {
 }
 
 annotate SELECTElectronics.Purchase with {
+    business_partner_number @(
+        Common.Text: business_partner_number.first_name,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Business Partners',
+            CollectionPath : 'BusinessPartner',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : business_partner_number_ID,
+                    ValueListProperty : 'ID'
+                },
+               {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'business_partner_number'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'first_name'
+                },
+            ]
+        }
+    )
+}
+
+
+annotate SELECTElectronics.Sales with {
     business_partner_number @(
         Common.Text: business_partner_number.first_name,
         Common.TextArrangement: #TextOnly,
@@ -599,7 +606,7 @@ annotate SELECTElectronics.StockData with {
             ]
         }
     )
-}
+};
 
 
 annotate SELECTElectronics.Product with {
@@ -609,7 +616,112 @@ annotate SELECTElectronics.Product with {
 product_img_url
 }
 
-annotate SELECTElectronics.Items with {
+
+annotate SELECTElectronics.Purchase.Items with @(
+    UI.LineItem:[
+        {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+    ],
+
+     UI.FieldGroup #PurchaseItems : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'ItemsFacet',
+            Label : 'Items',
+            Target : '@UI.FieldGroup#PurchaseItems',
+        },
+    ],  
+);
+
+
+annotate SELECTElectronics.Sales.Items with @(
+    UI.LineItem:[
+        {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+    ],
+
+     UI.FieldGroup #SalesItems : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'ItemsFacet',
+            Label : 'Items',
+            Target : '@UI.FieldGroup#SalesItems',
+        },
+    ],  
+);
+
+
+annotate SELECTElectronics.Purchase.Items with {
     store_id @(
         Common.Text: store_id.store_id,
         Common.TextArrangement: #TextOnly,
@@ -660,58 +772,57 @@ annotate SELECTElectronics.Items with {
             ]
         }
     )
-}
+};
 
 
-annotate SELECTElectronics.Purchase.items with @(
-    UI.LineItem:[
-        {
-            Label: 'Items',
-            Value: Item_ID
-        },
-       
-    ],
-
-     UI.FieldGroup #StudentLanguages : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : Item_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'ItemsFacet',
-            Label : 'Items',
-            Target : '@UI.FieldGroup#PurchaseItems',
-        },
-    ],  
-);
-
-annotate SELECTElectronics.Purchase.items with {
-    Item @(
-        Common.Text: Item.product_id,
+annotate SELECTElectronics.Sales.Items with {
+    store_id @(
+        Common.Text: store_id.store_id,
         Common.TextArrangement: #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList : {
-            Label: 'Items',
-            CollectionPath : 'Items',
-            Parameters: [
+            Label: 'Stores',
+            CollectionPath : 'Store',
+            Parameters     : [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : Item_ID,
+                    LocalDataProperty : store_id_ID,
                     ValueListProperty : 'ID'
                 },
-                /*{
+               
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'store_id'
+                },
+                   {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name'
+                }
+            ]
+        }
+    );
+    product_id @(
+        Common.Text: product_id.product_id,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Products',
+            CollectionPath : 'Product',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : product_id_ID,
+                    ValueListProperty : 'ID'
+                },
+               
+                {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'product_id'
                 },
-                {
+                   {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },*/
+                    ValueListProperty : 'product_name'
+                }
             ]
         }
     )
