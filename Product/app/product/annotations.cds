@@ -1,0 +1,1 @@
+using product_api as service from '../../srv/productapi';

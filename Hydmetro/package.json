@@ -1,0 +1,74 @@
+{
+  "name": "Hydmetro",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.8.0",
+    "@sap-cloud-sdk/http-client": "^3.15.0",
+    "@sap-cloud-sdk/resilience": "^3.15.0",
+    "@sap/cds": "^7",
+    "@sap/cds-dk": "^7.9.3",
+    "@sap/xssec": "^3",
+    "express": "^4.19.2",
+    "mbt": "^1.2.28",
+    "passport": "^0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.13",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "undeploy": "cf undeploy Hydmetro --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "[pg]": {
+          "kind": "postgres",
+          "credentials": {
+            "host": "localhost",
+            "port": 5432,
+            "user": "postgres",
+            "password": "postgres",
+            "database": "postgres"
+          }
+        }
+      },
+      "auth": {
+        "[production]": {
+          "strategy": "JWT"
+        },
+        "[test]": {
+          "strategy": "mock"
+        }
+      },
+      "API_PRODUCT_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_PRODUCT_SRV",
+        "csrf": true,
+        "csrfInBatch": true,
+        "[production]": {
+          "credentials": {
+            "destination": "S4HANA",
+            "path": "/sap/opu/odata/sap/API_PRODUCT_SRV"
+          }
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/hydmetro",
+    "app/hydmetro",
+    "app/hydmetro",
+    "app/products"
+  ]
+}

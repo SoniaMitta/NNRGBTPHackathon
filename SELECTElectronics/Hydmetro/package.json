@@ -1,0 +1,40 @@
+{
+  "name": "Hydmetro",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.8.0",
+    "@sap/cds": "^7",
+    "@sap/cds-dk": "^7.9.2",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.10"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "[pg]": {
+          "kind": "postgres",
+          "credentials": {
+            "host": "localhost",
+            "port": 5433,
+            "user": "postgres",
+            "password": "postgres",
+            "database": "postgres"
+          }
+        }
+      }
+    }
+  }
+}
